@@ -1,0 +1,26 @@
+https://chat.openai.com/share/bcc94a4f-c16c-4d54-b71e-feeed48ecf5c
+
+ C:\Users\hithe\devops\test>python create_instances.py
+Traceback (most recent call last):
+  File "create_instances.py", line 20, in <module>
+    instances = ec2.create_instances(**instance_params)
+  File "C:\Users\hithe\anaconda3\lib\site-packages\boto3\resources\factory.py", line 581, in do_action
+    response = action(self, *args, **kwargs)
+  File "C:\Users\hithe\anaconda3\lib\site-packages\boto3\resources\action.py", line 88, in __call__
+    response = getattr(parent.meta.client, operation_name)(*args, **params)
+  File "C:\Users\hithe\anaconda3\lib\site-packages\botocore\client.py", line 553, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+  File "C:\Users\hithe\anaconda3\lib\site-packages\botocore\client.py", line 1009, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.exceptions.ClientError: An error occurred (UnauthorizedOperation) when calling the RunInstances operation: You are not authorized to perform this operation. User: arn:aws:iam::233890922235:user/hitesh is not authorized to perform: ec2:RunInstances on resource: arn:aws:ec2:us-east-1:233890922235:instance/* because no identity-based policy allows the ec2:RunInstances action. Encoded authorization failure message: M15U3JaL_jkxb3LUuQ3d6O_QhoMMlfUU-YAZXqPRQ5BEPPseHnGoTcPjatkOkELCbYf-98BkNqlLAgXAhatUjuv0L1arFP1IYJ3VZim1Dfw1anHRNv7HRigxl0KeNhX0xZ2lobs0nIfx3pwRXoUoP5PKKibu-5zA1sD_z5Cjc9F4h2x__bfcINuPAkOIOHLh5oRpLV_SaPd-XEkQ679Y8lctIdc0WtKs62xz3xapQWLN2KPkslU7FcSFuimqbFyrRl8nYU0Pz8nlL0CXQQGEFuvrUWKj-ia_yRdMhZKiwisTvM5UMbOK9dY811qeAcbzRHsH2mQ0b8QovxZvdkXaqtypCqB2tOtA4JkWs6C6PU_8ril0bV15n0NRa1KdF0EX-SPhinEZyT2e4gc4fdPLVOR16bhXZ3a40jwg2kTacbhIKhy9eohuPR5xQa6O_lJyoiE3XOLdzroZXheiDcSrB6afwBAIHpOFBS-meK02t4l_sThbMNyJaCu3Vh71r3BG9P2rTLep6VJowycGzTmCKAZx67_0qZKiBdDLes8-Pg455A4113r7QRXOkj81B4SHVAGG9pQCFsoVHlacJ6DW7HzL0nE4NcOqH21i0cjHXf82dGmH2yxkirQ9mTkBa9wni_k-gykPmRVEEBLTb-aPEUXrqo2jXQQ
+ChatGPT
+The error message indicates that the IAM user "hitesh" does not have the necessary permissions to perform the ec2:RunInstances action. To resolve this issue, you need to update the IAM policy attached to the user to include the necessary permissions for launching EC2 instances.
+
+Here are the steps to update the IAM policy:
+
+Open the AWS Management Console.
+Navigate to the IAM dashboard.
+Find and select the IAM user "hitesh" in the list of users.
+Under the "Permissions" tab, click on "Attach policies."
+Search for the policy AmazonEC2FullAccess and attach it to the user. This policy grants full access to EC2 resources, including the ability to run instances.
+If you want to follow the principle of least privilege and provide only the necessary permissions, you can create a custom IAM policy that includes the specific permissions required for your use case. Here is an example policy granting minimal EC2 permissions:
