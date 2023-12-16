@@ -17,8 +17,28 @@ ec2 = boto3.resource('ec2', aws_access_key_id=aws_access_key_id, aws_secret_acce
 instance_ids_to_stop = ['i-01c086edfcd1980f0']  # Replace with the actual instance IDs
 
 # Stop instances
-response = ec2.instances.filter(InstanceIds=instance_ids_to_stop).stop() #.terminate() if u replace with this word it is going to terminate the instance , .start() to restart the stopped instance.
+# response = ec2.instances.filter(InstanceIds=instance_ids_to_stop).stop() #.terminate() if u replace with this word it is going to terminate the instance , .start() to restart the stopped instance.
 
-# Print the status of the instances after attempting to stop them
-for state_info in response:
-    print(state_info)
+# # Print the status of the instances after attempting to stop them
+# for state_info in response:
+#     print(state_info)
+
+
+# #Another method to stop
+# import boto3
+
+# # Replace these variables with your values
+# region = 'your-aws-region'
+# instance_id = 'your-instance-id'
+# aws_access_key_id = 'your-access-key-id'
+# aws_secret_access_key = 'your-secret-access-key'
+
+# # Create an EC2 client
+# ec2 = boto3.client('ec2', region_name=region, aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key)
+
+# # Stop the instance
+# try:
+#     response = ec2.stop_instances(InstanceIds=[instance_id])
+#     print(f"Instance {instance_id} is stopping.")
+# except Exception as e:
+#     print(f"Error stopping instance: {e}")
