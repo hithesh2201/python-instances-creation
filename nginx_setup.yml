@@ -1,0 +1,60 @@
+---
+- name: Install and configure Nginx
+  hosts: shell
+  become: true  # Run tasks as a privileged user (sudo)
+
+  tasks:
+    - name: Install Nginx using dnf
+      dnf:
+        name: nginx
+        state: present
+      become: true
+
+    - name: Enable and start Nginx
+      systemd:
+        name: nginx
+        enabled: yes
+        state: started
+      become: true
+
+    - name: Clear Nginx HTML directory
+      file:
+        path: /usr/share/nginx/html
+        state: absent
+      become: true
+
+    - name: Create Nginx HTML directory
+      file:
+        path: /usr/share/nginx/html
+        state: directory
+        mode: '0755'
+      become: true
+
+    - name: Download and extract web content
+      get_url:
+        url: "https://roboshop-builds.s3.amazonaws.com/web.zip"
+        dest: "/tmp/web.zip"
+      become: true
+
+    - name: Extract web content
+      unarchive:
+        src: "/tmp/web.zip"
+        dest: "/usr/share/nginx/html"
+        remote_src: yes
+      become: true
+
+    - name: Configure Nginx with custom settings
+      template:
+        src: "roboshop.conf.j2"
+        dest: "/etc/nginx/default.d/roboshop.conf"
+      become: true
+
+    - name: Restart Nginx to apply changes
+      systemd:
+        name: nginx
+        state: restarted
+      become: true
+
+    - name: Display completion message
+      debug:
+        msg: "Nginx configuration completed successfully."
